@@ -33,6 +33,8 @@ class LocalSearchQAP(object):
                     if newSolValue < self.solValue:
                         self.sol = newSol
                         self.solValue = newSolValue
+                        print(self.sol,self.solValue)
 
                         if self.solValue == self.optValue:
                             return
+        print("Hizo todas las iteraciones")

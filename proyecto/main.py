@@ -41,7 +41,7 @@ def readSol(filename):
 # MAIN
 def main(argv):
     if len(sys.argv) < 3:
-        print ("Usage: python main.py inputFile solFile")
+        print ("Usage: python main.py inputFile solFile [numIter]")
         sys.exit(1)
         
     number, distance, flow  = readData(argv[1])
@@ -49,10 +49,13 @@ def main(argv):
 
     qap = LocalSearchQAP(number, distance, flow, optValue)
 
-    prueba = qap.objectiveFunc(opt)
-    print("OPT",opt,optValue,"Calculado",prueba)
+    print("OPT",opt,optValue)
 
-    qap.greedy(100)
+    if len(sys.argv) == 3:
+        qap.greedy(int(argv[3]))
+    else:
+        qap.greedy(100)
+
     print("SOL",qap.sol,qap.solValue)
 
 if __name__ == "__main__":
