@@ -38,7 +38,7 @@ class LocalSearchQAP(object):
                 permutations.append((i,j))
 
         import random
-        randPermutations = random.sample(permutations, int(len(permutations)/2))
+        randPermutations = random.sample(permutations, int(len(permutations)*40/100))
         for i,j in randPermutations:
             newSol = self.sol[:] 
             newSol[i],newSol[j] = self.sol[j],self.sol[i]
@@ -108,3 +108,6 @@ class LocalSearchQAP(object):
 
     def localSearchFirst(self, numIter):
         self.localSearch(numIter, self.bestImprovement)
+
+    def localSearchRandom(self, numIter):
+        self.localSearch(numIter, self.improve)

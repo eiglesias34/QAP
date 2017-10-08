@@ -52,8 +52,16 @@ def main(argv):
     qap = LocalSearchQAP(number, distance, flow, optValue)
    
     qap.localSearchBest(numIter)
-    #qap.localSearchFirst(numIter)
     print("SOL",qap.sol,qap.solValue)
+    print('\n')
+    qap = LocalSearchQAP(number, distance, flow, optValue)
+    qap.localSearchFirst(numIter)
+    print("SOL FIRST",qap.sol,qap.solValue)
+    print('\n')
+    qap = LocalSearchQAP(number, distance, flow, optValue)
+    qap.localSearchRandom(numIter)
+    print("SOL RAANDOM",qap.sol,qap.solValue)
+    print('\n')
     print("OPT",opt,optValue) 
 
 if __name__ == "__main__":
