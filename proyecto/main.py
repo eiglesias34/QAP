@@ -47,11 +47,12 @@ def main(argv):
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
 
-    NUMITER = int(argv[3]) if len(sys.argv) > 2 else 500
+    numIter = int(argv[3]) if len(sys.argv) > 2 else 500
 
     qap = LocalSearchQAP(number, distance, flow, optValue)
    
-    qap.greedy(NUMITER)
+    qap.localSearchBest(numIter)
+    #qap.localSearchFirst(numIter)
     print("SOL",qap.sol,qap.solValue)
     print("OPT",opt,optValue) 
 
