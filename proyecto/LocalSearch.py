@@ -24,8 +24,9 @@ class LocalSearchQAP(object):
 
     def greedy(self, numIter):
         for x in range(numIter):
+            ## IMPROVE
             for i in range(self.number): 
-                for j in range(1,self.number):
+                for j in range(i+1,self.number):
                     newSol = self.sol[:] 
                     newSol[i],newSol[j] = self.sol[j],self.sol[i]
                     newSolValue = self.objectiveFunc(newSol)
@@ -33,8 +34,9 @@ class LocalSearchQAP(object):
                     if newSolValue < self.solValue:
                         self.sol = newSol
                         self.solValue = newSolValue
-                        print(self.sol,self.solValue)
-
-                        if self.solValue == self.optValue:
-                            return
-        print("Hizo todas las iteraciones")
+                        print(self.sol,self.solValue,"iter",x)
+                        break; #primer mejor
+            ## END IMPROVE
+            if self.solValue <= self.optValue:
+                return
+        print("-->",numIter,"iteraciones")

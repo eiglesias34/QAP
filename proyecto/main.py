@@ -47,16 +47,13 @@ def main(argv):
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
 
+    NUMITER = int(argv[3]) if len(sys.argv) > 2 else 500
+
     qap = LocalSearchQAP(number, distance, flow, optValue)
-
-    print("OPT",opt,optValue)
-
-    if len(sys.argv) == 3:
-        qap.greedy(int(argv[3]))
-    else:
-        qap.greedy(100)
-
+   
+    qap.greedy(NUMITER)
     print("SOL",qap.sol,qap.solValue)
+    print("OPT",opt,optValue) 
 
 if __name__ == "__main__":
     main(sys.argv)
