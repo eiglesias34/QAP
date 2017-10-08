@@ -3,10 +3,10 @@ from math import *
 
 def parseArgs(args):
     msg = "Error en la linea de comando:\arbolbinario  <nombre de archivo> <nombre del nuevo archivo>"
-    if len(args) != 2:
+    if len(args) != 3:
         print(msg)
         sys.exit(1)
-    return args[1]
+    return args[1], int(args[2])
 
 def lectura_de_matrices(fent):
 	myfile = open(fent, "r")
@@ -24,7 +24,7 @@ def lectura_de_matrices(fent):
 		x+=1
 		if x == num_ubicaciones:
 			break
-
+			
 	next(myfile)
 	x = 0 
 	for line in myfile:
