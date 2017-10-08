@@ -5,7 +5,7 @@ class LocalSearchQAP(object):
         self.distance = distance
         self.flow = flow
         self.optValue = optValue
-        
+
         if initSol:
             self.sol = initSol
             self.solValue = self.objectiveFunc(initSol)
@@ -35,7 +35,7 @@ class LocalSearchQAP(object):
         permutations = []
         for i in range(self.number):
             for j in range(i+1,self.number):
-                    permutations.append((i,j))
+                permutations.append((i,j))
 
         import random
         randPermutations = random.sample(permutations, int(len(permutations)/2))
@@ -86,12 +86,21 @@ class LocalSearchQAP(object):
     ## LOCAL SEARCH
 
     def localSearch(self, numIter, method):
+        prevSolValue = self.solValue
         for x in range(numIter):
-            if method():
-                print(self.sol,self.solValue,"iter",x)
-                
+            #if method():
+            #    print(self.sol,self.solValue,"iter",x)
+            method()
+
             if self.solValue <= self.optValue:
                 return
+
+            if prevSolValue == self.solValue:
+                print("OPTIMO LOCAL")
+                return
+            else:
+                prevSolValue = self.solValue
+
         print("-->",numIter,"iteraciones")
 
     def localSearchBest(self, numIter):
