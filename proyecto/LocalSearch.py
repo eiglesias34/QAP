@@ -11,7 +11,7 @@ class LocalSearchQAP(object):
             self.solValue = self.objectiveFunc(initSol)
         else:
             self.getInitSol()
-        print("INICIAL",self.sol,self.solValue)
+        
 
     def getInitSol(self):
         from random import shuffle
