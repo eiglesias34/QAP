@@ -21,6 +21,20 @@ def readData(filename):
                     data_line.append(int(i))
                 data.append(data_line)
 
+    if len(data) != number*2:
+        rows = int((len(data)/2) / number) #numero de filas que componen una fila real
+
+        distance,flow = [],[]
+        for i in range(number):
+            distance.append([item for sublist in data[:rows] for item in sublist])
+            del data[:rows]
+
+        for i in range(number):
+            flow.append([item for sublist in data[:rows] for item in sublist])
+            del data[:rows]
+
+        return number, distance, flow
+
     return number, data[:number], data[number:]
 
 def readSol(filename):
