@@ -50,33 +50,53 @@ def main(argv):
 
     numIter = int(argv[3]) if len(sys.argv) > 2 else 500
 
-    qap = LocalSearchQAP(number, distance, flow, optValue)
-    qap2 = LocalSearchQAP(number, distance, flow, optValue)
-    qap2.sol = qap.sol[:]
-    qap2.solValue = qap.solValue
-    qap3 = LocalSearchQAP(number, distance, flow, optValue)
-    qap3.sol = qap.sol[:]
-    qap3.solValue = qap.solValue
-    print("INICIAL",qap.sol,qap.solValue)
-    start_time = time.time()
-    qap.localSearchBest(numIter)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print("SOL",qap.sol,qap.solValue)
-    print('\n')
-    print("INICIAL",qap2.sol,qap2.solValue)
-    start_time = time.time()
-    qap2.localSearchFirst(numIter)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print("SOL FIRST",qap2.sol,qap2.solValue)
-    print('\n')
-    print("INICIAL",qap3.sol,qap3.solValue)
-    start_time = time.time()
-    qap3.localSearchRandom(numIter)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    print("SOL RAANDOM",qap3.sol,qap3.solValue)
-    print('\n')
-    print("OPT",opt,optValue)
-    print('\n') 
+    qap_best = []
+    qap_first = []
+    qap_random = []
+
+    qap_best_time = []
+    qap_first_time = []
+    qap_random_time = []
+
+    for x in range(5):
+        qap = LocalSearchQAP(number, distance, flow, optValue)
+        qap2 = LocalSearchQAP(number, distance, flow, optValue,qap.sol)
+        qap3 = LocalSearchQAP(number, distance, flow, optValue,qap.sol)
+
+        print("------------------------------------------")
+        print("--> BEST - INICIAL",qap.sol,qap.solValue)
+        start_time = time.time()
+        qap.localSearchBest(numIter)
+        end_time = time.time() - start_time
+        qap_best_time.append(end_time)
+        print("--- %s seconds ---" % end_time)
+        print("SOL",qap.sol,qap.solValue)
+        qap_best.append(qap.solValue)
+
+        print("\n--> FIRST - INICIAL",qap2.sol,qap2.solValue)
+        start_time = time.time()
+        qap2.localSearchFirst(numIter)
+        end_time = time.time() - start_time
+        qap_first_time.append(end_time)
+        print("--- %s seconds ---" % end_time)
+        print("SOL",qap2.sol,qap2.solValue)
+        qap_first.append(qap2.solValue)
+
+        print("\n--> RANDOM - INICIAL",qap3.sol,qap3.solValue)
+        start_time = time.time()
+        qap3.localSearchRandom(numIter)
+        end_time = time.time() - start_time
+        qap_random_time.append(end_time)
+        print("--- %s seconds ---" % end_time)
+        print("SOL",qap3.sol,qap3.solValue)
+        qap_random.append(qap3.solValue)
+        print("------------------------------------------") 
+
+    print("------------------------------------------")
+    print("OPT",opt,optValue) 
+    print("BEST ->",sum(qap_best)/len(qap_best),sum(qap_best_time)/len(qap_best_time),qap_best)
+    print("FISRT ->",sum(qap_first)/len(qap_first),sum(qap_first_time)/len(qap_first_time),qap_first)
+    print("RANDOM ->",sum(qap_random)/len(qap_random),sum(qap_random_time)/len(qap_random_time),qap_random)
 
 if __name__ == "__main__":
     main(sys.argv)

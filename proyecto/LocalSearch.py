@@ -96,12 +96,12 @@ class LocalSearchQAP(object):
                 return
 
             if prevSolValue == self.solValue:
-                print("OPTIMO LOCAL")
+                print("OPTIMO LOCAL - iter",x)
                 return
             else:
                 prevSolValue = self.solValue
 
-        print("-->",numIter,"iteraciones")
+        print("---",numIter,"iteraciones")
 
     def localSearchBest(self, numIter):
         self.localSearch(numIter, self.firstImprovement)
