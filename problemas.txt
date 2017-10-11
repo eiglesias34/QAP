@@ -1,0 +1,33 @@
+Los casos Taixxa se generan uniformemente y se propusieron en [Taillard: 91]. Los otros problemas fueron introducidos en [Taillard: 94]. Problemas Taixxb son asimétricos y generados al azar. Instancias Taixxc se producen en la generación de patrones grises. 
+Tai25a
+Tai35d*
+Tai60a
+Tai64c
+Tai80a
+Tai100a
+Tai256c
+
+Una matriz es la matriz de adyacencia de un árbol ponderado y la otra de un gráfico completo.
+Chr25a
+
+Estos casos provienen de generadores de problemas descritos en [LiPa: 92]. Los generadores proporcionan instancias asimétricas con soluciones óptimas conocidas.
+Lipa50a
+Lipa90a
+
+Estos ejemplos provienen de una aplicación en informática, de la prueba de circuitos secuenciales auto-comprobables. La cantidad de hardware adicional para la prueba debe ser minimizada.
+Esc128
+
+Los datos de la primera matriz corresponden al tiempo de escritura de un estenógrafo promedio, mientras que la segunda matriz describe la frecuencia de los pares de letras en idiomas diferentes tomados sobre 100.000 pares para los ejemplos. También se distingue entre dos tipos de teclados de máquina de escribir. Las instancias son asimétricas.
+Bur26d*
+
+Los datos describen las distancias de 19 instalaciones diferentes de un hospital y el flujo de pacientes entre esos lugares. La solución óptima fue encontrada primero por [Mautor: 92].
+Els19*
+
+La matriz de distancia contiene distancias Manhattan de cuadrículas rectangulares. 
+Nug30*
+
+Las distancias de estos problemas son rectangulares y las entradas en matrices de flujo son números pseudoaleatorios.
+Sko100a*
+
+----
+FUENTE: http://anjos.mgi.polymtl.ca/qaplib/inst.html

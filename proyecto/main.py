@@ -62,7 +62,7 @@ def main(argv):
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
 
-    numIter = int(argv[3]) if len(sys.argv) > 2 else 500
+    numIter = int(argv[3]) if len(sys.argv) > 3 else 500
 
     qap_best = []
     qap_first = []
@@ -72,7 +72,10 @@ def main(argv):
     qap_first_time = []
     qap_random_time = []
 
-    for x in range(5):
+
+    num = int(argv[4]) if len(sys.argv) > 4 else 5
+    print("Numero de corridas ",num)
+    for x in range(num):
         qap = LocalSearchQAP(number, distance, flow, optValue)
         qap2 = LocalSearchQAP(number, distance, flow, optValue,qap.sol)
         qap3 = LocalSearchQAP(number, distance, flow, optValue,qap.sol)
