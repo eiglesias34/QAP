@@ -104,10 +104,10 @@ class LocalSearchQAP(object):
         print("---",numIter,"iteraciones")
 
     def localSearchBest(self, numIter):
-        self.localSearch(numIter, self.firstImprovement)
+        self.localSearch(numIter, self.bestImprovement)
 
     def localSearchFirst(self, numIter):
-        self.localSearch(numIter, self.bestImprovement)
+        self.localSearch(numIter, self.firstImprovement)
 
     def localSearchRandom(self, numIter):
         self.localSearch(numIter, self.improve)
