@@ -1,56 +1,99 @@
 #!/usr/bin/env pytho    
 # -*- coding: utf-8 -*-
 import sys
-from LocalSearch import LocalSearchQAP
+from ReadData import readData, readSol
+from LocalSearch import LocalSearch
+from SimulatedAnnealing import SimulatedAnnealing
 import time
 '''
 DATA: http://anjos.mgi.polymtl.ca/qaplib/inst.html
 where n is the size of the instance, and A and B are either flow or distance matrix
 '''
 
-def readData(filename):
-    data = []
+def runLS(argv):
+    '''
+    argv
+        1 - inputFile 
+        2 - solFile
+        3 - numero de iteraciones de LS (default 500)
+        4 - numero de corridas por instancia (default 5)
+    '''
+    number, distance, flow  = readData(argv[1])
+    optValue, opt = readSol(argv[2])
 
-    with open(filename, 'r') as data_file:
-        number = int(data_file.readline().rstrip())
-        for line in data_file:
-            data_line = []
-            l = line.rstrip()
-            if l:
-                for i in l.split():
-                    data_line.append(int(i))
-                data.append(data_line)
+    numIter = int(argv[3]) if len(sys.argv) > 3 else 500
 
-    if len(data) != number*2:
-        rows = int((len(data)/2) / number) #numero de filas que componen una fila real
+    qap_first = []
+    qap_random = []
 
-        distance,flow = [],[]
-        for i in range(number):
-            distance.append([item for sublist in data[:rows] for item in sublist])
-            del data[:rows]
+    qap_best_time = []
+    qap_first_time = []
+    qap_random_time = [] 
 
-        for i in range(number):
-            flow.append([item for sublist in data[:rows] for item in sublist])
-            del data[:rows]
+    num = int(argv[4]) if len(sys.argv) > 4 else 10
+    for x in range(num):
+        qap = LocalSearch(number, distance, flow, optValue)
+        qap2 = LocalSearch(number, distance, flow, optValue,qap.sol)
+        qap3 = LocalSearch(number, distance, flow, optValue,qap.sol)
 
-        return number, distance, flow
+        #print("\n--> FIRST - INICIAL",qap2.sol,qap2.solValue)
+        start_time = time.time()
+        qap2.localSearchFirst(numIter)
+        end_time = time.time() - start_time
+        qap_first_time.append(end_time)
+        qap_first.append(qap2.solValue)
+        #print("--- %s seconds ---" % end_time)
+        #print("SOL",qap2.sol,qap2.solValue)
 
-    return number, data[:number], data[number:]
+        #print("\n--> RANDOM - INICIAL",qap3.sol,qap3.solValue)
+        start_time = time.time()
+        qap3.localSearchRandom(numIter)
+        end_time = time.time() - start_time
+        qap_random_time.append(end_time)
+        qap_random.append(qap3.solValue)
+        #print("--- %s seconds ---" % end_time)
+        #print("SOL",qap3.sol,qap3.solValue)
+        #print("------------------------------------------") 
 
-def readSol(filename):
-    data = []
 
-    with open(filename, 'r') as data_file:
-        first = data_file.readline().rstrip().split()
+    #print("------------------------------------------")
+    #print("--> BEST - INICIAL",qap.sol,qap.solValue)
+    start_time = time.time()
+    qap.localSearchBest(numIter)
+    end_time = time.time() - start_time
+    #print("--- %s seconds ---" % end_time)
+    #print("SOL",qap.sol,qap.solValue)
 
-        data= []
-        for line in data_file:
-            l = line.rstrip()
-            if l:
-                for i in l.split():
-                    data.append(int(i))
+    print("------------------------------------------")
+    print("OPT",opt,optValue) 
+    print("FISRT ->",sum(qap_first)/len(qap_first),sum(qap_first_time)/len(qap_first_time),qap_first)
+    print("RANDOM ->",sum(qap_random)/len(qap_random),sum(qap_random_time)/len(qap_random_time),qap_random)
+    print("BEST ->",qap.solValue, end_time)
 
-    return int(first[1]),data
+def runSA(argv):
+    '''
+    argv
+        1 - inputFile 
+        2 - solFile
+        3 - numero de iteraciones de LS (default 500)
+        4 - numero de iteraciones sin mejorar
+    '''
+    number, distance, flow  = readData(argv[1])
+    optValue, opt = readSol(argv[2])
+
+    numIter = int(argv[3]) if len(sys.argv) > 3 else 500
+    numAccept = int(argv[4]) if len(sys.argv) > 4 else 5
+
+    qap = SimulatedAnnealing(number, distance, flow, optValue)
+
+    #temperature
+    start_time = time.time()
+    qap.annealing(numIter, numAccept)
+    end_time = time.time() - start_time
+
+    print("------------------------------------------")
+    print("OPT",opt,optValue) 
+    print("SA ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
 
 ##############################################
 # MAIN
@@ -58,62 +101,17 @@ def main(argv):
     if len(sys.argv) < 3:
         print ("Usage: python main.py inputFile solFile [numIter]")
         sys.exit(1)
-        
-    number, distance, flow  = readData(argv[1])
-    optValue, opt = readSol(argv[2])
 
-    numIter = int(argv[3]) if len(sys.argv) > 3 else 500
+    # Now ask for input
+    print("Seleccione entre:")
+    print("1 - LS\n2 - SA\n3 - TS")
+    user_input = input()
 
-    qap_best = []
-    qap_first = []
-    qap_random = []
-
-    qap_best_time = []
-    qap_first_time = []
-    qap_random_time = []
-
-
-    num = int(argv[4]) if len(sys.argv) > 4 else 5
-    print("Numero de corridas ",num)
-    for x in range(num):
-        qap = LocalSearchQAP(number, distance, flow, optValue)
-        qap2 = LocalSearchQAP(number, distance, flow, optValue,qap.sol)
-        qap3 = LocalSearchQAP(number, distance, flow, optValue,qap.sol)
-
-        print("------------------------------------------")
-        print("--> BEST - INICIAL",qap.sol,qap.solValue)
-        start_time = time.time()
-        qap.localSearchBest(numIter)
-        end_time = time.time() - start_time
-        qap_best_time.append(end_time)
-        print("--- %s seconds ---" % end_time)
-        print("SOL",qap.sol,qap.solValue)
-        qap_best.append(qap.solValue)
-
-        print("\n--> FIRST - INICIAL",qap2.sol,qap2.solValue)
-        start_time = time.time()
-        qap2.localSearchFirst(numIter)
-        end_time = time.time() - start_time
-        qap_first_time.append(end_time)
-        print("--- %s seconds ---" % end_time)
-        print("SOL",qap2.sol,qap2.solValue)
-        qap_first.append(qap2.solValue)
-
-        print("\n--> RANDOM - INICIAL",qap3.sol,qap3.solValue)
-        start_time = time.time()
-        qap3.localSearchRandom(numIter)
-        end_time = time.time() - start_time
-        qap_random_time.append(end_time)
-        print("--- %s seconds ---" % end_time)
-        print("SOL",qap3.sol,qap3.solValue)
-        qap_random.append(qap3.solValue)
-        print("------------------------------------------") 
-
-    print("------------------------------------------")
-    print("OPT",opt,optValue) 
-    print("BEST ->",sum(qap_best)/len(qap_best),sum(qap_best_time)/len(qap_best_time),qap_best)
-    print("FISRT ->",sum(qap_first)/len(qap_first),sum(qap_first_time)/len(qap_first_time),qap_first)
-    print("RANDOM ->",sum(qap_random)/len(qap_random),sum(qap_random_time)/len(qap_random_time),qap_random)
+    if user_input == '1':
+        runLS(argv)
+    elif user_input == '2':
+        runSA(argv)
+           
 
 if __name__ == "__main__":
     main(sys.argv)
