@@ -4,7 +4,7 @@ class LocalSearch(QAP):
     
     ## IMPROVE
 
-    def improve(self): #fue una prueba, no usar
+    def improve(self): 
         localSol = []
         localSolValue = 0
         permutations = []

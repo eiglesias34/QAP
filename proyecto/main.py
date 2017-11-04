@@ -4,6 +4,7 @@ import sys
 from ReadData import readData, readSol
 from LocalSearch import LocalSearch
 from SimulatedAnnealing import SimulatedAnnealing
+from Tabu import Tabu
 import time
 '''
 DATA: http://anjos.mgi.polymtl.ca/qaplib/inst.html
@@ -95,6 +96,30 @@ def runSA(argv):
     print("OPT",opt,optValue) 
     print("SA ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
 
+
+def runTS(argv):
+    '''
+    argv
+        1 - inputFile 
+        2 - solFile
+        3 - numero de iteraciones de LS (default 500)
+    '''
+    number, distance, flow  = readData(argv[1])
+    optValue, opt = readSol(argv[2])
+
+    numIter = int(argv[3]) if len(sys.argv) > 3 else 500
+
+    qap = Tabu(number, distance, flow, optValue)
+
+    #temperature
+    start_time = time.time()
+    qap.tabu(numIter)
+    end_time = time.time() - start_time
+
+    print("------------------------------------------")
+    print("OPT",opt,optValue) 
+    print("SA ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
+
 ##############################################
 # MAIN
 def main(argv):
@@ -111,6 +136,8 @@ def main(argv):
         runLS(argv)
     elif user_input == '2':
         runSA(argv)
+    elif user_input == '3':
+        runTS(argv)
            
 
 if __name__ == "__main__":
