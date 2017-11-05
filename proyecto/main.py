@@ -104,6 +104,7 @@ def runTS(argv):
         2 - solFile
         3 - numero de iteraciones de LS (default 500)
     '''
+
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
 
@@ -123,7 +124,7 @@ def runTS(argv):
 ##############################################
 # MAIN
 def main(argv):
-    if len(sys.argv) < 3:
+    if len(sys.argv) < 4:
         print ("Usage: python main.py inputFile solFile [numIter]")
         sys.exit(1)
 
@@ -132,11 +133,11 @@ def main(argv):
     print("1 - LS\n2 - SA\n3 - TS")
     user_input = input()
 
-    if user_input == '1':
+    if user_input == 1:
         runLS(argv)
-    elif user_input == '2':
+    elif user_input == 2:
         runSA(argv)
-    elif user_input == '3':
+    elif user_input == 3:
         runTS(argv)
            
 
