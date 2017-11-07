@@ -8,7 +8,7 @@ T0 = 100
 class SimulatedAnnealing(QAP):
 
     def setTemperature(self, temp):
-        return temp - 0.0001 #temp * ALFA
+        return temp * ALFA #temp - 0.0001 #
 
     def acceptanceProbability(self,difE,T):
         try:
@@ -29,7 +29,7 @@ class SimulatedAnnealing(QAP):
         return newSol
 
     def annealing(self, numIter, nonImprove):
-        T = T0
+        T = self.number*self.number
         accept,improves = 0,0
 
         for x in range(numIter):
