@@ -119,7 +119,7 @@ def runTS(argv):
 
     print("------------------------------------------")
     print("OPT",opt,optValue) 
-    print("SA ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
+    print("TS ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
 
 ##############################################
 # MAIN
@@ -133,11 +133,11 @@ def main(argv):
     print("1 - LS\n2 - SA\n3 - TS")
     user_input = input()
 
-    if user_input == 1:
+    if int(user_input) == 1:
         runLS(argv)
-    elif user_input == 2:
+    elif int(user_input) == 2:
         runSA(argv)
-    elif user_input == 3:
+    elif int(user_input) == 3:
         runTS(argv)
            
 
