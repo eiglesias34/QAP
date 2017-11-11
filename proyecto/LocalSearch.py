@@ -71,7 +71,7 @@ class LocalSearch(QAP):
                 return
 
             if prevSolValue == self.solValue:
-                print("OPTIMO LOCAL - iter",x)
+                #print("OPTIMO LOCAL - iter",x)
                 return
             else:
                 prevSolValue = self.solValue

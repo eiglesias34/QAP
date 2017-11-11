@@ -10,6 +10,8 @@ import time
 DATA: http://anjos.mgi.polymtl.ca/qaplib/inst.html
 where n is the size of the instance, and A and B are either flow or distance matrix
 '''
+def error(opt,sol):
+    return abs(sol-opt)/opt * 100
 
 def runLS(argv):
     '''
@@ -67,9 +69,10 @@ def runLS(argv):
 
     print("------------------------------------------")
     print("OPT",opt,optValue) 
-    print("FISRT ->",sum(qap_first)/len(qap_first),sum(qap_first_time)/len(qap_first_time),qap_first)
-    print("RANDOM ->",sum(qap_random)/len(qap_random),sum(qap_random_time)/len(qap_random_time),qap_random)
-    print("BEST ->",qap.solValue, end_time)
+    solAvg= sum(qap_first)/len(qap_first)
+    print("FISRT ->",error(qap.optValue,solAvg),solAvg,sum(qap_first_time)/len(qap_first_time),qap_first)
+    #print("RANDOM ->",sum(qap_random)/len(qap_random),sum(qap_random_time)/len(qap_random_time),qap_random)
+    #print("BEST ->",qap.solValue, end_time)
 
 def runSA(argv):
     '''
@@ -77,13 +80,13 @@ def runSA(argv):
         1 - inputFile 
         2 - solFile
         3 - numero de iteraciones de LS (default 500)
-        4 - numero de iteraciones sin mejorar
+        4 - numero de iteraciones sin mejorar (default 10)
     '''
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
 
     numIter = int(argv[3]) if len(sys.argv) > 3 else 500
-    numAccept = int(argv[4]) if len(sys.argv) > 4 else 5
+    numAccept = int(argv[4]) if len(sys.argv) > 4 else 10
 
     qap = SimulatedAnnealing(number, distance, flow, optValue)
 
@@ -94,7 +97,7 @@ def runSA(argv):
 
     print("------------------------------------------")
     print("OPT",opt,optValue) 
-    print("SA ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
+    print("SA ",qap.solValue,error(qap.optValue,qap.solValue), end_time)
 
 
 def runTS(argv):
@@ -119,7 +122,7 @@ def runTS(argv):
 
     print("------------------------------------------")
     print("OPT",opt,optValue) 
-    print("TS ",qap.solValue,abs(qap.solValue-qap.optValue)/qap.optValue, end_time)
+    print("TS ",qap.solValue,error(qap.optValue,qap.solValue), end_time)
 
 ##############################################
 # MAIN
