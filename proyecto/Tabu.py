@@ -44,7 +44,7 @@ class Tabu(QAP):
         T = []
 
         for i in range(numIter):
-            x = self.localSearch(T)
+            x,self.sol,self.solValue = self.firstImprovement(self.sol,self.solValue,T)
 
             #return si es el optimo o la solucion no mejoro
             if x == None or self.solValue <= self.optValue:
