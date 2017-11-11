@@ -80,25 +80,34 @@ def runSA(argv):
         1 - inputFile 
         2 - solFile
         3 - numero de iteraciones de LS (default 500)
-        4 - numero de iteraciones sin mejorar (default 10)
     '''
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
 
     numIter = int(argv[3]) if len(sys.argv) > 3 else 500
-    numAccept = int(argv[4]) if len(sys.argv) > 4 else 10
 
-    qap = SimulatedAnnealing(number, distance, flow, optValue)
+    qap_first = []
+    qap_first_time = []
 
-    #temperature
-    start_time = time.time()
-    qap.annealing(numIter, numAccept)
-    end_time = time.time() - start_time
+    iters = 10 if number < 60 else 5
+    for x in range(iters):
+        qap = SimulatedAnnealing(number, distance, flow, optValue)
+        print("INICIAL",qap.sol,qap.solValue)
 
+        #temperature
+        start_time = time.time()
+        qap.annealing(numIter)
+        end_time = time.time() - start_time
+
+        print("SA",qap.solValue,error(qap.optValue,qap.solValue),end_time)
+        qap_first_time.append(end_time)
+        qap_first.append(qap.solValue)
+
+    solAvg = sum(qap_first)/len(qap_first)
+    timeAvg =  sum(qap_first_time)/len(qap_first_time)
     print("------------------------------------------")
     print("OPT",opt,optValue) 
-    print("SA ",qap.solValue,error(qap.optValue,qap.solValue), end_time)
-
+    print("SOL",error(qap.optValue,solAvg),solAvg,timeAvg,qap_first)
 
 def runTS(argv):
     '''
@@ -130,6 +139,9 @@ def main(argv):
     if len(sys.argv) < 4:
         print ("Usage: python main.py inputFile solFile [numIter]")
         sys.exit(1)
+
+    runSA(argv)
+    return
 
     # Now ask for input
     print("Seleccione entre:")

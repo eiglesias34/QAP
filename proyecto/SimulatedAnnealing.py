@@ -7,7 +7,7 @@ ALFA = 0.5
 class SimulatedAnnealing(QAP):
 
     def setTemperature(self, temp):
-        return temp * ALFA #temp - 0.0001 #
+        return temp * ALFA 
 
     def acceptanceProbability(self,difE,T):
         try:
@@ -27,9 +27,8 @@ class SimulatedAnnealing(QAP):
 
         return newSol
 
-    def annealing(self, numIter, nonImprove):
-        nonImprove = self.number/2
-        T = self.number**4
+    def annealing(self, numIter):
+        T = self.number**6
         accept,improves = 0,0
         iterr = 0
 
@@ -39,7 +38,8 @@ class SimulatedAnnealing(QAP):
             lastAccept = accept
             lastImproves = improves
 
-            while noni < nonImprove:
+            #cicla hasta que no mejore en n/2 iteraciones continuas
+            while noni < self.number/2:
                 #new neighbour
                 newSol = self.makeMove(self.sol)
                 #neighbour energy
@@ -60,7 +60,7 @@ class SimulatedAnnealing(QAP):
                 self.sol = newSol
                 self.solValue = newSolValue
 
-            #si por self.number iteraciones no mejora ni acepta una solucion, se retorna
+            #si por n iteraciones no mejora ni acepta una solucion, se retorna
             iterr = iterr+1 if lastImproves == improves and lastAccept == accept else 0
             if iterr >= self.number:
                 print("Iteracion ",x+1,"-> No mejora, ni acepta")
@@ -69,6 +69,6 @@ class SimulatedAnnealing(QAP):
             #print("T,accept,improves",T,accept,improves)
             T = self.setTemperature(T)
 
-            if self.solValue <= self.optValue:
+            if self.solValue <= self.optValue or T<=0:
                 print("Iteracion ",x+1)
                 return
