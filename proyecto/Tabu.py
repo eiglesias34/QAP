@@ -1,3 +1,6 @@
+#Autor: Andrea Centeno
+#Fecha: noviembre, 2017
+
 from QAP import QAP
 
 MAX_T_LEN = 6
@@ -5,6 +8,14 @@ MAX_T_LEN = 6
 class Tabu(QAP):
 
     def firstImprovement(self,sol,solValue,T):
+        '''
+        Busqueda local primer mejor
+
+        Parámetros:
+        sol -- solucion 
+        solValue -- valor de la solucion
+        T -- lista Tabu
+        '''
         for i in range(self.number): 
             for j in range(i+1,self.number):
                 if (i,j) in T:
@@ -18,29 +29,13 @@ class Tabu(QAP):
 
         return None, sol,solValue
 
-    def localSearch(self,T):
-        sol = self.sol[:]
-        solValue = self.solValue
-        pair = None
-        for x in range(500):
-            #return si es el optimo o la solucion no mejoro
-            if solValue <= self.optValue:
-                return pair
-
-            p, sol, solValue = self.firstImprovement(sol, solValue,T)
-            if p:
-                pair = p
-
-            #return si es el optimo o la solucion no mejoro
-            if solValue == self.solValue:
-                return pair
-            else:
-                self.solValue = solValue
-                self.sol = sol
-
-        return pair
-
     def tabu(self, numIter):
+        '''
+        Metaheuristica Tabu
+
+        Parámetros:
+        numIter -- numero maximo de iteraciones
+        '''
         T = []
 
         for i in range(numIter):
@@ -51,6 +46,8 @@ class Tabu(QAP):
                 print("Iteracion ",i+1)
                 return
 
+            #si la lista esta llena, se saca el primer elemento, 
+            #es decir, el movimiento tabu con mas tiempo en la lista
             if len(T) == MAX_T_LEN:
                 T.pop(0)
 

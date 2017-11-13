@@ -1,3 +1,6 @@
+#Autor: Andrea Centeno
+#Fecha: noviembre, 2017
+
 from QAP import QAP
 from math import exp
 from random import randint,random
@@ -7,15 +10,34 @@ ALFA = 0.5
 class SimulatedAnnealing(QAP):
 
     def setTemperature(self, temp):
+        '''
+        Dismunuye la temperatura
+
+        Parámetros:
+        temp -- temperatura actual
+        '''
         return temp * ALFA 
 
     def acceptanceProbability(self,difE,T):
+        '''
+        Probabilidad de aceptacion
+
+        Parámetros:
+        difE -- diferencial de energia
+        temp -- temperatura actual
+        '''
         try:
             return exp(-difE / T)    
         except OverflowError:
             return float('inf')
 
     def makeMove(self, sol):
+        '''
+        Perturbacion de la solucion
+
+        Parámetros:
+        sol -- solucion actual
+        '''
         i = randint(0, len(sol)-1)
         j = randint(0, len(sol)-1)
         while j == i:
@@ -28,7 +50,13 @@ class SimulatedAnnealing(QAP):
         return newSol
 
     def annealing(self, numIter):
-        T = self.number**6
+        '''
+        Metaheuristica Simulated Annealing
+
+        Parámetros:
+        numIter -- numero maximo de iteraciones
+        '''
+        T = self.number**4 #temperatura inicial
         accept,improves = 0,0
         iterr = 0
 
@@ -38,7 +66,7 @@ class SimulatedAnnealing(QAP):
             lastAccept = accept
             lastImproves = improves
 
-            #cicla hasta que no mejore en n/2 iteraciones continuas
+            #cicla hasta que no mejore en n/2 iteraciones
             while noni < self.number/2:
                 #new neighbour
                 newSol = self.makeMove(self.sol)

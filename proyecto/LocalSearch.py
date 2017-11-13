@@ -1,3 +1,6 @@
+#Autores: Andrea Centeno, Enrique Iglesias
+#Fecha: octubre, 2017
+
 from QAP import QAP
 
 class LocalSearch(QAP):
@@ -5,6 +8,9 @@ class LocalSearch(QAP):
     ## IMPROVE
 
     def improve(self): 
+        '''
+        Mejor de un 70% aleatorio de la vecindad
+        '''
         localSol = []
         localSolValue = 0
         permutations = []
@@ -28,6 +34,9 @@ class LocalSearch(QAP):
             return True
 
     def firstImprovement(self):
+        '''
+        Primer mejor
+        '''
         for i in range(self.number): 
             for j in range(i+1,self.number):
                 newSol = self.sol[:] 
@@ -40,6 +49,9 @@ class LocalSearch(QAP):
                     return True
 
     def bestImprovement(self):
+        '''
+        Mejor mejor
+        '''
         localSol = []
         localSolValue = 0
 
@@ -61,6 +73,13 @@ class LocalSearch(QAP):
     ## LOCAL SEARCH
 
     def localSearch(self, numIter, method):
+        '''
+        Dismunuye la temperatura
+
+        Parámetros:
+        numIter -- numero maximo de iteraciones
+        method -- mejoramiento (localSearchBest,localSearchFirst,localSearchRandom)
+        '''
         prevSolValue = self.solValue
         for x in range(numIter):
             #if method():

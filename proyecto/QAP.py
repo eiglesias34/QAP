@@ -1,3 +1,6 @@
+##Autores: Andrea Centeno, Enrique Iglesias
+#Fecha: octubre, 2017
+
 class QAP(object):
     
     def __init__(self, number, distance, flow, optValue, initSol = None):
@@ -12,7 +15,10 @@ class QAP(object):
         else:
             self.getInitSol()
         
-    def getInitSol(self):
+    def getInitSol(self):        
+        '''
+        Crea solucion inicial aleatoria
+        '''
         from random import shuffle
         l = [x for x in range(1,self.number+1)]
         shuffle(l)
@@ -21,6 +27,9 @@ class QAP(object):
 
 
     def objectiveFunc(self,sol):
+        '''
+        Funcion objetivo
+        '''
         value = 0
         for i in range(self.number):
             for j in range(self.number):
