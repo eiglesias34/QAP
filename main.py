@@ -163,14 +163,14 @@ def run(number, distance, flow, optValue,numIter, opt, method):
 # MAIN
 ##############################################
 def main(argv):
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
         print ("Usage: python main.py inputFile solFile [numIter]")
         sys.exit(1)
 
     #leemos datos del los archivo de entrada
     number, distance, flow  = readData(argv[1])
     optValue, opt = readSol(argv[2])
-    numIter = int(argv[3]) if len(sys.argv) > 3 else 500
+    numIter = int(argv[3]) if len(sys.argv) > 3 else 1000
 
     # Now ask for input
     print("Seleccione entre:")

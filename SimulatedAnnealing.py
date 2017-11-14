@@ -1,4 +1,3 @@
-#Autor: Andrea Centeno
 #Fecha: noviembre, 2017
 
 from QAP import QAP

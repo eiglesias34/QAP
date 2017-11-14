@@ -1,4 +1,10 @@
 def readData(filename):
+    '''
+    Lee datos del problema
+
+    Parámetros:
+    filename -- archivo
+    '''
     data = []
 
     with open(filename, 'r') as data_file:
@@ -28,6 +34,12 @@ def readData(filename):
     return number, data[:number], data[number:]
 
 def readSol(filename):
+    '''
+    Lee solucion del problema
+
+    Parámetros:
+    filename -- archivo
+    '''
     data = []
 
     with open(filename, 'r') as data_file:

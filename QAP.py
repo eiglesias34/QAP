@@ -1,4 +1,3 @@
-##Autores: Andrea Centeno, Enrique Iglesias
 #Fecha: octubre, 2017
 
 class QAP(object):
