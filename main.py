@@ -6,6 +6,7 @@ import sys
 from ReadData import readData, readSol
 from LocalSearch import LocalSearch
 from SimulatedAnnealing import SimulatedAnnealing
+from AlgoritmoGenetico import GenecticAlgorithm
 from Tabu import Tabu
 import time
 
@@ -107,7 +108,7 @@ def runSA(number, distance, flow, optValue,numIter):
     qap.annealing(numIter)
     end_time = time.time() - start_time
 
-    print("SA",qap.solValue,error(qap.optValue,qap.solValue),end_time)
+    print("SA",qap.solValue,error(qap.optValue,qap.solValue),'%',end_time,'s')
     return end_time,qap.solValue
 
 def runTS(number, distance, flow, optValue,numIter): 
@@ -128,8 +129,29 @@ def runTS(number, distance, flow, optValue,numIter):
     qap.tabu(numIter)
     end_time = time.time() - start_time
 
-    print("TS",qap.solValue,error(qap.optValue,qap.solValue),end_time)
+    print("TS",qap.solValue,error(qap.optValue,qap.solValue),'%',end_time,'s')
     return end_time,qap.solValue
+
+def runGA(number, distance, flow, optValue, numIter):
+    '''
+    Crea clase QAP y ejecuta el algoritmo genetico
+
+    Parámetros:
+    number -- cardinalidad del problema
+    distance -- matriz de distancia
+    flow -- matriz de flujo
+    optValue -- valor optimo
+    numIter -- numero maximo de iteraciones
+    '''   
+    qap = GenecticAlgorithm(number, distance, flow, optValue,number)
+
+    #temperature
+    start_time = time.time()
+    qap.genetic(numIter)
+    end_time = time.time() - start_time
+
+    print("GA",qap.optValue,qap.bestvalue,error(qap.optValue,qap.bestvalue),'%',end_time,'s')
+    return end_time,qap.bestvalue
 
 def run(number, distance, flow, optValue,numIter, opt, method):
     '''
@@ -157,7 +179,7 @@ def run(number, distance, flow, optValue,numIter, opt, method):
     timeAvg =  sum(qap_first_time)/len(qap_first_time)
     print("------------------------------------------")
     print("OPT",opt,optValue) 
-    print("SOL",error(optValue,solAvg),solAvg,timeAvg,qap_first)
+    print("SOL",solAvg,error(optValue,solAvg),'%',timeAvg,'s',qap_first)
 
 ##############################################
 # MAIN
@@ -174,7 +196,7 @@ def main(argv):
 
     # Now ask for input
     print("Seleccione entre:")
-    print("1 - LS\n2 - SA\n3 - TS")
+    print("1 - LS\n2 - SA\n3 - TS\n4 - GA")
     user_input = input()
 
     if int(user_input) == 1:
@@ -183,6 +205,8 @@ def main(argv):
         run(number, distance, flow, optValue, numIter, opt,runSA)
     elif int(user_input) == 3:
         run(number, distance, flow, optValue, numIter, opt,runTS)
+    elif int(user_input) == 4:
+        runGA(number, distance, flow, optValue, numIter)
            
 
 if __name__ == "__main__":

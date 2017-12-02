@@ -5,4 +5,4 @@ Linux: <br />
 > python main.py inputFile solFile <br />
 
 Ejemplo: <br />
-> python3 main.py qapdata/bur26b.dat qapsoln/bur26b.sln
+> python3 main.py qapdata/tai64c.dat qapsoln/tai64c.sln
