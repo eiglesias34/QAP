@@ -75,6 +75,8 @@ class GenecticAlgorithm(QAP):
 
             parentsIndices = self.getParents(self.population)
 
+            improvement = False
+
             for i,j in parentsIndices:
                 parentA = self.population[i]
                 parentB = self.population[j]
@@ -86,39 +88,43 @@ class GenecticAlgorithm(QAP):
                 if x > 0 and x % self.number != 0:
                     if childC.solValue < parentA.solValue:
                         self.population[i] = childC
+                        improvement=True
                         #print("cambia padre a")
 
                     if childD.solValue < parentB.solValue:
                         self.population[j] = childD
+                        improvement=True
                         #print("cambia padre b")
 
                 else:
                     pos, worstindividual, worstvalue = self.getWorstIndividual()
                     if childC.solValue < worstvalue:
                         self.population[pos] = childC
+                        improvement=True
                         #print("cambia padre peor por child C")
 
                     pos, worstindividual, worstvalue = self.getWorstIndividual()
                     if childD.solValue < worstvalue:
                         self.population[pos] = childD
+                        improvement=True
                         #print("cambia padre peor por child D")
 
             #busca al mejor de la generacion
             lastBestValue = self.bestvalue
             self.bestindvidual, self.bestvalue = self.getBestIndividual()
 
-            if self.bestvalue != lastBestValue:
+            if improvement: #self.bestvalue != lastBestValue:
                 noImprovement = 0
             else:#aumenta el contador si no mejora
                 noImprovement += 1
 
             #no mejora durante n iteraciones
             if noImprovement >= self.number:
-                print("Antes LS",abs(self.bestvalue-self.optValue)/self.optValue * 100)
-                qap = LocalSearch(self.number, self.distance, self.flow, self.optValue, self.bestindvidual)
-                qap.localSearchFirst(numIter)
-                self.bestindvidual, self.bestvalue = qap.sol, qap.solValue
-                print("Despues LS",abs(self.bestvalue-self.optValue)/self.optValue * 100)
+                #print("Antes LS",abs(self.bestvalue-self.optValue)/self.optValue * 100)
+                #qap = LocalSearch(self.number, self.distance, self.flow, self.optValue, self.bestindvidual)
+                #qap.localSearchFirst(numIter)
+                #self.bestindvidual, self.bestvalue = qap.sol, qap.solValue
+                #print("Despues LS",abs(self.bestvalue-self.optValue)/self.optValue * 100)
                 print("Iteracion ",x+1)
                 return
 
