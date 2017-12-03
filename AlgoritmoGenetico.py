@@ -6,11 +6,19 @@ MUTATION = 0.2
 
 class GenecticAlgorithm(QAP):
 
+    def objectiveFunc(self,sol):
+        '''
+        Funcion objetivo
+        '''
+        value = 0
+        for i in range(self.number):
+            for j in range(self.number):
+                value += self.flow[sol[i]-1][sol[j]-1]*self.distance[i][j]
+        return value
+
     def firstImprovement(self,sol,solValue):
         for i in range(self.number): 
             for j in range(i+1,self.number):
-                if (i,j) in T:
-                    continue
                 newSol = sol[:] 
                 newSol[i],newSol[j] = sol[j],sol[i]
                 newSolValue = self.objectiveFunc(newSol)
@@ -19,6 +27,29 @@ class GenecticAlgorithm(QAP):
                     return newSol,newSolValue
 
         return sol,solValue
+
+    def localSearch(self, numIter):
+        '''
+        Dismunuye la temperatura
+
+        Parámetros:
+        numIter -- numero maximo de iteraciones
+        method -- mejoramiento (localSearchBest,localSearchFirst,localSearchRandom)
+        '''
+        prevSolValue = self.bestvalue
+        for x in range(numIter):
+            #if method():
+            #    print(self.sol,self.solValue,"iter",x)
+            self.bestindvidual, self.bestvalue = self.firstImprovement(self.bestindvidual, self.bestvalue)
+
+            if self.bestvalue <= self.optValue:
+                return 
+
+            if prevSolValue == self.bestvalue:
+                #print("OPTIMO LOCAL - iter",x)
+                return 
+            else:
+                prevSolValue = self.bestvalue
 
     def fitnessFunctions(self,solValue):
         return 1/solValue
@@ -36,7 +67,7 @@ class GenecticAlgorithm(QAP):
         shuffle(l)
         return zip(l[0::2], l[1::2])
 
-    def crossoverChild(self, parentA, parentB):
+    def crossover(self, parentA, parentB):
         '''
         Crea un hijo similar al padre B con 20 porciento del padre A
 
@@ -44,34 +75,31 @@ class GenecticAlgorithm(QAP):
         parentA -- Padre A 
         parentB -- Padre B
         '''
-        child = Solution(self.number,self.distance,self.flow,parentB)
-
+        childD = Solution(self.number,self.distance,self.flow,parentB)
+        childC = Solution(self.number,self.distance,self.flow,parentA)
         #obtengo los indices del 20 porciento de las componentes de padre A
-        randParentA = sample(parentA.sol, int(len(parentA.sol)*MUTATION))
+        randParentA = sample(range(0,len(parentA.sol)), int(len(parentA.sol)*MUTATION))
 
         #creo hijo
         for aElem in randParentA:
-            i = parentA.sol.index(aElem) #indice en A del componente del padre A
-            j = parentB.sol.index(aElem) #indice en B del componente del padre A
-            bElem = parentB.sol[i] #componente del padre B en el indice del componente del A
+
+            i = aElem #indice en A del componente del padre A
+            j = parentB.sol.index(parentA.sol[aElem]) #indice en B del componente del padre A
             if i != j:
                 #print("child[",i,"],child[",j,"] = B[",j,"],B[",i,"]","=>",child.sol[i],child.sol[j],"=",parentB.sol[j],parentB.sol[i])
-                child.sol[i],child.sol[j] = parentB.sol[j],parentB.sol[i]
+                childD.sol[i],childD.sol[j] = parentB.sol[j],parentB.sol[i]
 
-        child.solValue = child.objectiveFunc(child.sol,self.number,self.distance,self.flow)
+            i = aElem #indice en A del componente del padre A
+            j = parentA.sol.index(parentB.sol[aElem]) #indice en B del componente del padre A
+            if i != j:
+                #print("child[",i,"],child[",j,"] = B[",j,"],B[",i,"]","=>",child.sol[i],child.sol[j],"=",parentB.sol[j],parentB.sol[i])
+                childC.sol[i],childC.sol[j] = parentA.sol[j],parentA.sol[i]
+
+        childD.solValue = childD.objectiveFunc(childD.sol,self.number,self.distance,self.flow)
         #print("child",child.sol)
-        return child
 
-    def crossover(self, parentA, parentB):
-        '''
-        se intercambia un 20 porcieto de las componentes del padre
-
-        Parámetros:
-        parentA -- Padre A 
-        parentB -- Padre B
-        '''
-        childC = self.crossoverChild(parentB, parentA)
-        childD = self.crossoverChild(parentA, parentB)
+        childC.solValue = childC.objectiveFunc(childC.sol,self.number,self.distance,self.flow)
+        #print("child",child.sol)
 
         return childC, childD
     
@@ -80,6 +108,8 @@ class GenecticAlgorithm(QAP):
         #    self.population[x].sol, self.population[x].solValue = self.firstImprovement(self.population[x].sol, self.population[x].solValue)
 
         noImprovement = 0
+
+        print(abs(self.bestvalue-self.optValue)/self.optValue * 100)
 
         for x in range(numIter):
 
@@ -126,6 +156,9 @@ class GenecticAlgorithm(QAP):
 
             #no mejora durante n iteraciones
             if noImprovement >= self.number:
+                print(abs(self.bestvalue-self.optValue)/self.optValue * 100)
+                self.localSearch(500)
+                print(abs(self.bestvalue-self.optValue)/self.optValue * 100)
                 print("Iteracion ",x+1)
                 return
 
@@ -133,3 +166,5 @@ class GenecticAlgorithm(QAP):
             if self.bestvalue <= self.optValue:
                 print("Iteracion ",x+1)
                 return
+
+        self.localSearch(500)
