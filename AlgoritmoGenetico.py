@@ -1,4 +1,6 @@
 from QAP_Poblacion import Solution,QAP_Poblacion as QAP
+from SimulatedAnnealing import SimulatedAnnealing
+from LocalSearch import LocalSearch
 from random import randint,random,sample
 from random import shuffle
 
@@ -104,8 +106,13 @@ class GenecticAlgorithm(QAP):
         return childC, childD
     
     def genetic(self, numIter):
-        #for x in xrange(len(self.population)):
-        #    self.population[x].sol, self.population[x].solValue = self.firstImprovement(self.population[x].sol, self.population[x].solValue)
+        #for x in range(len(self.population)):
+        #    qap = SimulatedAnnealing(self.number, self.distance, self.flow, self.optValue, self.population[x].sol)
+        #    qap.annealing(numIter)
+        #    self.population[x].sol, self.population[x].solValue = qap.sol, qap.solValue
+
+        #self.bestindvidual,self.bestvalue = self.getBestIndividual()
+            
 
         noImprovement = 0
 
@@ -157,7 +164,9 @@ class GenecticAlgorithm(QAP):
             #no mejora durante n iteraciones
             if noImprovement >= self.number:
                 print(abs(self.bestvalue-self.optValue)/self.optValue * 100)
-                self.localSearch(500)
+                qap = LocalSearch(self.number, self.distance, self.flow, self.optValue, self.bestindvidual)
+                qap.localSearchFirst(numIter)
+                self.bestindvidual, self.bestvalue = qap.sol, qap.solValue
                 print(abs(self.bestvalue-self.optValue)/self.optValue * 100)
                 print("Iteracion ",x+1)
                 return
@@ -166,5 +175,3 @@ class GenecticAlgorithm(QAP):
             if self.bestvalue <= self.optValue:
                 print("Iteracion ",x+1)
                 return
-
-        self.localSearch(500)
