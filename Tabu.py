@@ -10,7 +10,7 @@ class Tabu(QAP):
         '''
         Busqueda local primer mejor
 
-        Parámetros:
+        Parametros:
         sol -- solucion 
         solValue -- valor de la solucion
         T -- lista Tabu
@@ -32,7 +32,7 @@ class Tabu(QAP):
         '''
         Metaheuristica Tabu
 
-        Parámetros:
+        Parametros:
         numIter -- numero maximo de iteraciones
         '''
         T = []

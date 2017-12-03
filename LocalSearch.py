@@ -1,4 +1,5 @@
-#Fecha: octubre, 2017
+# -*- coding: utf-8 -*-
+#Fecha: diciembre, 2017
 
 from QAP import QAP
 
@@ -8,7 +9,7 @@ class LocalSearch(QAP):
 
     def improve(self): 
         '''
-        Mejor de un 70% aleatorio de la vecindad
+        Mejor de un 70 porciento aleatorio de la vecindad
         '''
         localSol = []
         localSolValue = 0
@@ -75,7 +76,7 @@ class LocalSearch(QAP):
         '''
         Dismunuye la temperatura
 
-        Parámetros:
+        Parametros:
         numIter -- numero maximo de iteraciones
         method -- mejoramiento (localSearchBest,localSearchFirst,localSearchRandom)
         '''

@@ -12,7 +12,7 @@ class SimulatedAnnealing(QAP):
         '''
         Dismunuye la temperatura
 
-        Parámetros:
+        Parametros:
         temp -- temperatura actual
         '''
         return temp * ALFA 
@@ -21,7 +21,7 @@ class SimulatedAnnealing(QAP):
         '''
         Probabilidad de aceptacion
 
-        Parámetros:
+        Parametros:
         difE -- diferencial de energia
         temp -- temperatura actual
         '''
@@ -34,7 +34,7 @@ class SimulatedAnnealing(QAP):
         '''
         Perturbacion de la solucion
 
-        Parámetros:
+        Parametros:
         sol -- solucion actual
         '''
         i = randint(0, len(sol)-1)
@@ -52,7 +52,7 @@ class SimulatedAnnealing(QAP):
         '''
         Metaheuristica Simulated Annealing
 
-        Parámetros:
+        Parametros:
         numIter -- numero maximo de iteraciones
         '''
         T = self.number**4 #temperatura inicial

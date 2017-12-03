@@ -1,4 +1,4 @@
-#!/usr/bin/env pytho    
+#!/usr/bin/env python 
 # -*- coding: utf-8 -*-
 #Autores: Andrea Centeno, Enrique Iglesias
 #Fecha: sep-dic, 2017
@@ -143,7 +143,7 @@ def runGA(number, distance, flow, optValue, numIter):
     optValue -- valor optimo
     numIter -- numero maximo de iteraciones
     '''   
-    qap = GenecticAlgorithm(number, distance, flow, optValue,number)
+    qap = GenecticAlgorithm(number, distance, flow, optValue)
 
     #temperature
     start_time = time.time()

@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
+
 class Solution(object):
     """docstring for Solution"""
     def __init__(self, initLen,distance,flow, initsol = None):
         if initsol:
-            self.sol = initsol.sol
+            self.sol = initsol.sol[:]
             self.solValue = initsol.solValue
         else:
             self.getInitSol(initLen,distance,flow)
