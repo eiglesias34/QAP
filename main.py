@@ -7,6 +7,7 @@ from ReadData import readData, readSol
 from LocalSearch import LocalSearch
 from SimulatedAnnealing import SimulatedAnnealing
 from AlgoritmoGenetico import GenecticAlgorithm
+from AntColony import AntColony
 from Tabu import Tabu
 import time
 
@@ -153,6 +154,25 @@ def runGA(number, distance, flow, optValue, numIter):
     print("GA",qap.optValue,qap.bestvalue,error(qap.optValue,qap.bestvalue),'%',end_time,'s')
     return end_time,qap.bestvalue
 
+def runAC(number, distance, flow, optValue, numIter):
+    '''
+    Crea clase QAP y ejecuta la colonia de hormigas
+
+    Parámetros:
+    number -- cardinalidad del problema
+    distance -- matriz de distancia
+    flow -- matriz de flujo
+    optValue -- valor optimo
+    numIter -- numero maximo de iteraciones
+    '''   
+    qap = AntColony(number, distance, flow, optValue, 10)
+    start_time = time.time()
+    qap.colony(numIter)
+    end_time = time.time() - start_time
+
+    print("AC",qap.optValue,qap.bestvalue,error(qap.optValue,qap.bestvalue),'%',end_time,'s')
+    return end_time,qap.bestvalue
+
 def run(number, distance, flow, optValue,numIter, opt, method):
     '''
     Realiza de 5 a 10 corridas por instancias y promedia resultados
@@ -196,7 +216,7 @@ def main(argv):
 
     # Now ask for input
     print("Seleccione entre:")
-    print("1 - LS\n2 - SA\n3 - TS\n4 - GA")
+    print("1 - LS\n2 - SA\n3 - TS\n4 - GA\n5 - AC")
     user_input = input()
 
     if int(user_input) == 1:
@@ -207,6 +227,8 @@ def main(argv):
         run(number, distance, flow, optValue, numIter, opt,runTS)
     elif int(user_input) == 4:
         runGA(number, distance, flow, optValue, numIter)
+    elif int(user_input) == 5:
+        runAC(number, distance, flow, optValue, numIter)
            
 
 if __name__ == "__main__":
