@@ -3,7 +3,6 @@
 from random import randint,random,sample
 from random import shuffle
 #proyecto
-from LocalSearch import LocalSearch
 from QAP_Poblacion import Solution,QAP_Poblacion as QAP
 
 MUTATION = 0.2
@@ -62,11 +61,6 @@ class GenecticAlgorithm(QAP):
         return childC, childD
     
     def genetic(self, numIter):
-        #for p in self.population:
-        #    qap = LocalSearch(self.number, self.distance, self.flow, self.optValue, p.sol)
-        #    qap.localSearchFirst(numIter)
-        #    p.sol, p.solValue = qap.sol, qap.solValue
-            
         noImprovement = 0
 
         print("Mejor inicial",abs(self.bestvalue-self.optValue)/self.optValue * 100)
@@ -110,21 +104,15 @@ class GenecticAlgorithm(QAP):
                         #print("cambia padre peor por child D")
 
             #busca al mejor de la generacion
-            lastBestValue = self.bestvalue
             self.bestindvidual, self.bestvalue = self.getBestIndividual()
 
-            if improvement: #self.bestvalue != lastBestValue:
+            if improvement: 
                 noImprovement = 0
             else:#aumenta el contador si no mejora
                 noImprovement += 1
 
             #no mejora durante n iteraciones
             if noImprovement >= self.number:
-                #print("Antes LS",abs(self.bestvalue-self.optValue)/self.optValue * 100)
-                #qap = LocalSearch(self.number, self.distance, self.flow, self.optValue, self.bestindvidual)
-                #qap.localSearchFirst(numIter)
-                #self.bestindvidual, self.bestvalue = qap.sol, qap.solValue
-                #print("Despues LS",abs(self.bestvalue-self.optValue)/self.optValue * 100)
                 print("Iteracion ",x+1)
                 return
 
