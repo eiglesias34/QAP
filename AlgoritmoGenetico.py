@@ -24,8 +24,8 @@ class GenecticAlgorithm(QAP):
 
     def crossover(self, parentA, parentB):
         '''
-        Crea un hijo similar al padre B con 20 porciento del padre A
-        Crea un hijo similar al padre A con 20 porciento del padre B
+        Crea un hijo directo de padre B con 20 porciento del padre A
+        Crea un hijo directo de padre A con 20 porciento del padre B
         Parámetros:
         parentA -- Padre A 
         parentB -- Padre B
@@ -62,8 +62,6 @@ class GenecticAlgorithm(QAP):
     
     def genetic(self, numIter):
         noImprovement = 0
-
-        print("Mejor inicial",abs(self.bestvalue-self.optValue)/self.optValue * 100)
 
         for x in range(numIter):
 

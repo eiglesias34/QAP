@@ -109,7 +109,7 @@ def runSA(number, distance, flow, optValue,numIter):
     qap.annealing(numIter)
     end_time = time.time() - start_time
 
-    print("SA",qap.solValue,error(qap.optValue,qap.solValue),'%',end_time,'s')
+    print("SA",qap.optValue,qap.solValue,error(qap.optValue,qap.solValue),'%',end_time,'s')
     return end_time,qap.solValue
 
 def runTS(number, distance, flow, optValue,numIter): 
@@ -130,7 +130,7 @@ def runTS(number, distance, flow, optValue,numIter):
     qap.tabu(numIter)
     end_time = time.time() - start_time
 
-    print("TS",qap.solValue,error(qap.optValue,qap.solValue),'%',end_time,'s')
+    print("TS",qap.optValue,qap.solValue,error(qap.optValue,qap.solValue),'%',end_time,'s')
     return end_time,qap.solValue
 
 def runGA(number, distance, flow, optValue, numIter):
@@ -222,14 +222,13 @@ def main(argv):
     if int(user_input) == 1:
         runLS(argv)
     elif int(user_input) == 2:
-        run(number, distance, flow, optValue, numIter, opt,runSA)
+        runSA(number, distance, flow, optValue, numIter)
     elif int(user_input) == 3:
-        run(number, distance, flow, optValue, numIter, opt,runTS)
+        runTS(number, distance, flow, optValue, numIter)
     elif int(user_input) == 4:
         runGA(number, distance, flow, optValue, numIter)
     elif int(user_input) == 5:
-        runAC(number, distance, flow, optValue, numIter)
-           
+        runAC(number, distance, flow, optValue, numIter)           
 
 if __name__ == "__main__":
     main(sys.argv)
